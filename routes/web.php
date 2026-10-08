@@ -28,3 +28,10 @@ Route::get('/version', function () {
 Route::get('/heure', function () {
     return view('heure');
 });
+
+Route::get('/a-propos', function () {
+    return view('a-propos', [
+        'auteur' => 'Arij Znagui',
+        'groupe' => 'MDW32',
+    ]);
+});
