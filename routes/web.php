@@ -1,11 +1,21 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
-// Route d'accueil par défaut
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route d'accueil via le PageController
+Route::get('/', [PageController::class, 'home'])->name('home');
+
+// Route à propos via le PageController
+Route::get('/a-propos', [PageController::class, 'about'])->name('about');
+
+// Route heure
+Route::get('/heure', function () {
+    return view('heure', [
+        'heure' => now()->format('H:i'),
+        'date' => now()->format('d/m/Y'),
+    ]);
+})->name('heure');
 
 // Route avec paramètre et nom (Étape 1)
 Route::get('/salut/{prenom}', function ($prenom) {
@@ -17,22 +27,9 @@ Route::get('/articles/{id}', function ($id) {
     return "Affichage de l'article numéro : $id";
 })->whereNumber('id')->name('articles.show');
 
-// Route heure (conservée / adaptée)
-Route::get('/heure', function () {
-    return view('heure');
-});
-
-// Route à propos (avec vos données)
-Route::get('/a-propos', function () {
-    return view('a-propos', [
-        'auteur' => 'Arij Znagui',
-        'groupe' => 'MDW32',
-    ]);
-});
-
-// Groupe de routes avec préfixe et nom (Étape 2)
+// Groupe de routes d'administration avec préfixe et nom (Étape 2)
 Route::prefix('admin')->name('admin.')->group(function () {
-    
+
     Route::get('/dashboard', function () {
         return "Tableau de bord administrateur";
     })->name('dashboard');
