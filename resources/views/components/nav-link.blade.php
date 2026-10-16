@@ -1,12 +1,17 @@
-@props(['route'])
+@props(['to', 'match' => null])
 
 @php
-    $active = request()->routeIs($route);
-    $classes = $active
-        ? 'text-gray-900 font-semibold'
-        : 'text-gray-600 hover:text-gray-900';
+    $active = request()->routeIs($match ?? $to);
 @endphp
 
-<a href="{{ route($route) }}" {{ $attributes->merge(['class' => $classes]) }}>
+<a
+    href="{{ route($to) }}"
+    @if ($active) aria-current="page" @endif
+    {{ $attributes->class([
+        'px-3 py-2 rounded-md text-sm font-medium transition-colors',
+        'bg-indigo-600 text-white' => $active,
+        'text-gray-700 hover:bg-gray-100' => ! $active,
+    ]) }}
+>
     {{ $slot }}
 </a>

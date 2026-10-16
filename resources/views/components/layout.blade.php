@@ -6,24 +6,15 @@
     <title>{{ $title ?? 'Mini-CMS' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-gray-50 text-gray-900">
-    <header class="border-b border-gray-200 bg-white">
-        <nav class="mx-auto flex max-w-3xl items-center gap-6 px-4 py-4">
-            <a href="{{ route('home') }}" class="text-lg font-bold">Mini-CMS</a>
-            
-            <x-nav-link route="home">Accueil</x-nav-link>
-            <x-nav-link route="posts.index">Articles</x-nav-link>
-            <x-nav-link route="time">Heure</x-nav-link>
-            <x-nav-link route="about">À propos</x-nav-link>
-        </nav>
-    </header>
+<body class="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
+    <x-navbar />
 
-    <main class="mx-auto max-w-3xl px-4 py-8">
+    <main class="flex-1 w-full max-w-5xl mx-auto px-4 py-8">
         {{ $slot }}
     </main>
 
-    <footer class="mx-auto max-w-3xl px-4 py-6 text-sm text-gray-500">
-        Mini-CMS - Atelier Framework Côté Serveur
+    <footer class="border-t border-gray-200 py-6 text-center text-sm text-gray-500">
+        Mini-CMS - Atelier Framework Côté Serveur - ISET Sidi Bouzid
     </footer>
 </body>
 </html>
