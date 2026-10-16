@@ -6,14 +6,13 @@ Auteur : Arij Znagui, groupe MDW32.
 
 Mini-CMS évoluera au fil du semestre vers une petite plateforme de publication : pages publiques, back-office authentifié, API JSON et tests Pest. Chaque session se termine par un tag Git (`lab-01`, `lab-01b`, puis un tag par session).
 
-## État actuel (tag lab-02b)
-
-- Pages construites avec des composants Blade anonymes : `x-navbar`, `x-nav-link`, `x-post-card`, `x-alert`, `x-page-header`.
-- Lien actif dans la navigation avec `request()->routeIs()`.
-- Articles toujours stockés dans un tableau PHP, sans base de données pour l'instant.
+## État actuel (tag lab-03)
+- Articles enregistrés dans une base SQLite et lus avec le modèle Eloquent `Post`.
+- Table `posts` créée par une migration : après un clone, `php artisan migrate` la recrée (vide).
+- Liste paginée, détail par liaison modèle-route, formulaire de création avec validation côté serveur.
+- Premiers tests Pest : `php artisan test`.
 
 ## Routes disponibles
-
 | Méthode | URI | Nom | Action |
 |---|---|---|---|
 | GET | `/` | `home` | `PageController@home` |
@@ -21,7 +20,9 @@ Mini-CMS évoluera au fil du semestre vers une petite plateforme de publication 
 | GET | `/heure` | `time` | `PageController@time` |
 | GET | `/posts` | `posts.index` | `PostController@index` |
 | GET | `/posts/archive/{year}` | `posts.archive` | `PostController@archive` |
-| GET | `/posts/{slug}` | `posts.show` | `PostController@show` |
+| GET | `/posts/create` | `posts.create` | `PostController@create` |
+| POST | `/posts` | `posts.store` | `PostController@store` |
+| GET | `/posts/{post}` | `posts.show` | `PostController@show` |
 
 ## Prérequis
 - PHP et Composer (PHP 8.3 ou plus depuis https://www.php.net/downloads, avec les extensions curl, fileinfo, mbstring, openssl, pdo_sqlite, sqlite3 et zip activées dans php.ini, et Composer depuis https://getcomposer.org).
@@ -45,3 +46,6 @@ composer run dev
 
 ### Session 04
 ![Liste des articles](screenshots/s04-articles.png)
+### Session 05
+![Liste paginée des articles](screenshots/s05-articles.png)
+![Formulaire avec erreurs de validation](screenshots/s05-formulaire.png)
