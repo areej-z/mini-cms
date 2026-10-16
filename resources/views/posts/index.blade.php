@@ -1,7 +1,7 @@
 <x-layout>
     <x-slot:title>{{ $heading }} - Mini-CMS</x-slot:title>
 
-    <h1 class="text-3xl font-bold mb-6">{{ $heading }}</h1>
+    <x-page-header :title="$heading" />
 
     <div class="grid gap-6 md:grid-cols-2">
         @forelse ($posts as $post)
