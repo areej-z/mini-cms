@@ -1,42 +1,31 @@
-# Mini-CMS
+# Notes de la Session 02 - Git et Laravel
 
-Projè fil rouge de l'Atelier Framework Côté Serveur (Laravel 13, PHP 8.3+), 3e année MDW, ISET Sidi Bouzid.
+## 1. Objectifs de la session
+- Valider et structurer le projet Laravel (mini-cms).
+- Documenter l'ensemble des routes dans le README.
+- Suivre les modifications et l'historique des commits via Git.
 
-Otor : Arij Znagui, grup MDW32.
+## 2. Commandes Git utilisées
+- `git status` : Vérifier l'état de l'arbre de travail.
+- `git add` et `git commit` : Valider les modifications incrémentales.
+- `git log --oneline --decorate --graph` : Visualiser l'historique des branches et des tags.
+- `git tag` : Poser et manipuler les tags (`lab-01`, `lab-01b`).
 
-Mini-CMS ɛvawwolu afte di semès pas tu wan smɔl platfɔm fɔ poblikeshɔn: pej poblik, baks-ofis otɛntifik, API JSON ɛn tɛst Pɛst. Evri seshɔn ɛn wit wan tag Git (`lab-01`, `lab-01b`, ɛn afta wan tag fɔ evri seshɔn).
+## 3. Gestion des captures d'écran
+- Organisation des fichiers dans le dossier `screenshots/`.
+- Ajout des captures validant le bon fonctionnement des vues (`accueil`, `bienvenue`, `route-list`, `a-propos`).
 
-## Stet aktuwal (tag lab-01b)
-- Rut fɔ kloshyɔn: `/`, `/bonjour`, `/bonjour-court`, `/bienvenue`, `/version`, `/heure` ɛn `/a-propos`.
-- Vyu Blad: `bienvenue`, `heure` ɛn `a-propos`.
-- Bes di done SQLite lokal (`database/database.sqlite`, no vɛrshɔn).
+## 4. Documentation des routes
+- Ajout de la section « Routes disponibles » dans le fichier `README.md` listant toutes les routes en closures créées lors des sessions 01 et 02.
 
-## Rut we de
-| Metod | URI | Rèpons |
-|---|---|---|
-| GET | `/` | Vyu wɛlkɔm (pej d'akeyi par defo de Laravel) |
-| GET | `/bonjour` | Shen de tɛks « Bonjour MDW3 ! Voici ma première route Laravel 13. » |
-| GET | `/bonjour-court` | Shen de tɛks, eklit avɛk wan fɔnshɔn fleyis |
-| GET | `/bienvenue` | Vyu bienvenue avɛk di nem de l'étudiant, le groupe et le cours |
-| GET | `/version` | Shen avɛk di vɛrshɔn de Laravel et celle de PHP |
-| GET | `/heure` | Vyu heure avɛk l'heure (format H:i) et la date (format d/m/Y) |
-| GET | `/a-propos` | Vyu a-propos avɛk le nom de l'auteur et le groupe |
+## 5. Bilan et vérifications
+- Vérification de la propreté du dépôt distant GitHub.
+- Absence des fichiers sensibles et dépendances (`vendor/`, `node_modules/`, `.env`, `database.sqlite`) grâce au fichier `.gitignore`.
 
-## Prerekwizi
-- PHP ɛn Komposa (PHP 8.3 o pas di https://www.php.net/downloads, avɛk di eksteshɔn kɛl, faylinfo, mbstring, openssl, pdo_sqlite, sqlite3 ɛn zip aktivi di php.ini, ɛn Komposa di https://getcomposer.org).
-- Node.js LTS ɛn npm.
-- Git.
+## 6. Historique depuis lab-01
 
-## Instaleshɔn
+Nombre de commits depuis lab-01 : 5
 
-### Bash (Git Bash, makOS, Linux)
-```bash
-git clone [https://github.com/areej-z/mini-cms.git](https://github.com/areej-z/mini-cms.git)
-cd mini-cms
-composer install
-npm install
-cp .env.example .env
-php artisan key:generate
-touch database/database.sqlite
-php artisan migrate
-composer run dev
+Fichiers modifiés depuis lab-01 : notes/s02-git.md, routes/web.php, resources/views/a-propos.blade.php, screenshots/s02-a-propos.png, README.md
+
+Ce que git tag -n affiche pour lab-01 : lab-01 lab-01
