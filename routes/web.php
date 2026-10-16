@@ -18,17 +18,17 @@ Route::get('/heure', function () {
     ]);
 })->name('heure');
 
-// Route avec paramètre et nom
+// Route avec paramètre et nom (Étape 1)
 Route::get('/salut/{prenom}', function ($prenom) {
     return "Bonjour $prenom ! Bienvenue dans Mini-CMS.";
 })->name('salut');
 
-// Route avec contrainte numérique
+// Route avec contrainte numérique (Étape 1)
 Route::get('/articles/{id}', function ($id) {
     return "Affichage de l'article numéro : $id";
 })->whereNumber('id')->name('articles.show');
 
-// Groupe de routes d'administration avec préfixe et nom
+// Groupe de routes d'administration avec préfixe et nom (Étape 2)
 Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/dashboard', function () {
@@ -41,11 +41,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 });
 
-// Routes pour les articles (index, archive et show)
-Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-Route::get('/posts/archive/{year}', [PostController::class, 'archive'])
-    ->whereNumber('year')
-    ->name('posts.archive');
-Route::get('/posts/{slug}', [PostController::class, 'show'])
-    ->where('slug', '[a-z0-9-]+')
-    ->name('posts.show');
+// Groupe factorisé pour les routes des articles
+Route::prefix('posts')->name('posts.')->group(function () {
+    Route::get('/', [PostController::class, 'index'])->name('index');
+
+    Route::get('/archive/{year}', [PostController::class, 'archive'])
+        ->whereNumber('year')
+        ->name('archive');
+
+    Route::get('/{slug}', [PostController::class, 'show'])
+        ->where('slug', '[a-z0-9-]+')
+        ->name('show');
+});
