@@ -10,13 +10,8 @@ Route::get('/', [PageController::class, 'home'])->name('home');
 // Route à propos via le PageController
 Route::get('/a-propos', [PageController::class, 'about'])->name('about');
 
-// Route heure
-Route::get('/heure', function () {
-    return view('heure', [
-        'heure' => now()->format('H:i'),
-        'date' => now()->format('d/m/Y'),
-    ]);
-})->name('heure');
+// Route heure via le PageController
+Route::get('/heure', [PageController::class, 'time'])->name('time');
 
 // Route avec paramètre et nom (Étape 1)
 Route::get('/salut/{prenom}', function ($prenom) {
