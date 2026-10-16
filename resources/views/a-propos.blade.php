@@ -11,11 +11,11 @@
         <p class="text-gray-700">Auteur : {{ $auteur }} - Groupe : {{ $groupe }}</p>
 
         <x-alert type="info" title="Projet pédagogique">
-            Ce site évolue à chaque session : les pages que vous voyez aujourd'hui seront reliées à une base de données dans la suite du cours.
+            Ce site évolue à chaque session de l'atelier.
         </x-alert>
 
-        <x-alert type="warning" title="Données provisoires">
-            Les articles affichés viennent d'un tableau PHP écrit dans le contrôleur. Ils ne sont pas enregistrés.
+        <x-alert type="success" title="Données en base">
+            Les articles sont enregistrés dans une base SQLite et lus avec Eloquent.
         </x-alert>
     </div>
 </x-layout>
