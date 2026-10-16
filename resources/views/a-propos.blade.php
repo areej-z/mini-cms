@@ -1,7 +1,7 @@
 <x-layout>
     <x-slot:title>À propos - Mini-CMS</x-slot:title>
 
-    <h1 class="text-3xl font-bold mb-6">À propos</h1>
+    <x-page-header title="À propos" subtitle="Le projet Mini-CMS et ses objectifs." />
 
     <div class="space-y-4 max-w-2xl">
         <p class="text-gray-700 leading-relaxed">
