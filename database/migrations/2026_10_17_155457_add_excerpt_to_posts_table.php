@@ -1,25 +1,28 @@
 <?php
 
-namespace App\Models;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Post extends Model
+return new class extends Migration
 {
-    protected $fillable = [
-        'title',
-        'slug',
-        'excerpt',
-        'body',
-        'is_published',
-        'published_at',
-    ];
-
-    protected function casts(): array
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
-        return [
-            'is_published' => 'boolean',
-            'published_at' => 'datetime',
-        ];
+        Schema::table('posts', function (Blueprint $table) {
+            $table->string('excerpt')->nullable();
+        });
     }
-}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropColumn('excerpt');
+        });
+    }
+};
