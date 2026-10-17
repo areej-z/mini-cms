@@ -10,7 +10,7 @@
         @endif
     </div>
 
-    <p class="text-sm text-gray-600">{{ Str::limit($post->body, 120) }}</p>
+    <p class="text-sm text-gray-600">{{ $post->excerpt ?? Str::limit($post->body, 120) }}</p>
 
     <p class="text-xs text-gray-500">
         @if ($post->published_at)
