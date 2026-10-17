@@ -49,3 +49,6 @@ composer run dev
 ### Session 05
 ![Liste paginée des articles](screenshots/s05-articles.png)
 ![Formulaire avec erreurs de validation](screenshots/s05-formulaire.png)
+### Session 06
+![Formulaire de modification prérempli](screenshots/s06-modification.png)
+![Confirmation de suppression](screenshots/s06-suppression.png)
