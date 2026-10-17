@@ -12,3 +12,4 @@ Route::get('/posts/archive/{year}', [PostController::class, 'archive'])
     ->name('posts.archive');
 
 Route::resource('posts', PostController::class);
+Route::patch('/posts/{post}/publication', [PostController::class, 'togglePublication'])->name('posts.publication');
