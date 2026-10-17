@@ -10,7 +10,7 @@ class PageController extends Controller
     public function home(): View
     {
         return view('home', [
-            'latestPosts' => Post::where('is_published', true)
+            'latestPosts' => Post::published()
                 ->latest('published_at')
                 ->take(3)
                 ->get(),
