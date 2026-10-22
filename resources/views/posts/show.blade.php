@@ -52,4 +52,16 @@
             </details>
         </div>
     </article>
+
+    @if ($related->isNotEmpty())
+        <section class="mt-12" aria-labelledby="related-title">
+            <h2 id="related-title" class="text-xl font-bold mb-4">Dans la même catégorie</h2>
+
+            <div class="grid gap-6 md:grid-cols-2">
+                @foreach ($related as $relatedPost)
+                    <x-post-card :post="$relatedPost" />
+                @endforeach
+            </div>
+        </section>
+    @endif
 </x-layout>

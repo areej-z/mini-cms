@@ -4,9 +4,6 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->withoutVite();
@@ -17,11 +14,9 @@ it('lists posts with their category, author and tags without lazy loading', func
     $tag = Tag::factory()->create(['name' => 'Astuce']);
     $author = User::factory()->create(['name' => 'Amira Ben Salah']);
 
-    $posts = Post::factory(3)->create([
+    $posts = Post::factory(3)->published()->create([
         'category_id' => $category->id,
         'user_id' => $author->id,
-        'is_published' => true,
-        'published_at' => now(),
     ]);
 
     $posts->each(fn (Post $post) => $post->tags()->attach($tag));
@@ -64,4 +59,19 @@ it('removes the pivot rows when a post is deleted', function () {
 
     $this->assertDatabaseMissing('post_tag', ['post_id' => $post->id]);
     $this->assertDatabaseHas('tags', ['id' => $tag->id]);
+});
+
+it('shows other published posts of the same category', function () {
+    $category = Category::factory()->create();
+    $post = Post::factory()->published()->create(['category_id' => $category->id]);
+
+    Post::factory()->published()->create(['category_id' => $category->id, 'title' => 'Voisin publie']);
+    Post::factory()->create(['category_id' => $category->id, 'title' => 'Voisin brouillon']);
+    Post::factory()->published()->create(['title' => 'Autre categorie']);
+
+    $this->get(route('posts.show', $post))
+        ->assertOk()
+        ->assertSee('Voisin publie')
+        ->assertDontSee('Voisin brouillon')
+        ->assertDontSee('Autre categorie');
 });
