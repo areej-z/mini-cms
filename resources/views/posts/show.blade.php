@@ -6,13 +6,22 @@
 
         <h1 class="text-3xl font-bold mt-4 mb-2">{{ $post->title }}</h1>
 
-        <p class="text-sm text-gray-500 mb-6">
+        <p class="text-sm text-gray-500 mb-4">
             @if ($post->published_at)
                 Publié le {{ $post->published_at->format('d/m/Y') }}
             @else
                 Brouillon
             @endif
+            - {{ $post->category?->name ?? 'Sans catégorie' }} - par {{ $post->user?->name ?? 'auteur inconnu' }}
         </p>
+
+        @if ($post->tags->isNotEmpty())
+            <ul class="mb-6 flex flex-wrap gap-2" aria-label="Tags de l'article">
+                @foreach ($post->tags as $tag)
+                    <li class="rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700">{{ $tag->name }}</li>
+                @endforeach
+            </ul>
+        @endif
 
         @if ($post->excerpt)
             <p class="text-lg text-gray-600 mb-6">{{ $post->excerpt }}</p>
