@@ -1,4 +1,10 @@
-@props(['post' => null])
+@props(['post' => null, 'tags' => []])
+
+@php
+    $selectedTags = session()->hasOldInput()
+        ? old('tags', [])
+        : ($post?->tags->pluck('id')->all() ?? []);
+@endphp
 
 <form method="POST" action="{{ $post ? route('posts.update', $post) : route('posts.store') }}" class="max-w-2xl space-y-5">
     @csrf
@@ -35,6 +41,26 @@
         <label for="body" class="block text-sm font-medium text-gray-700">Contenu</label>
         <textarea id="body" name="body" rows="8" class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2">{{ old('body', $post?->body) }}</textarea>
         @error('body')
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <div>
+        <span class="mb-2 block text-sm font-medium text-gray-700">Tags</span>
+        <div class="flex flex-wrap gap-4">
+            @foreach ($tags as $tag)
+                <div class="flex items-center">
+                    <input type="checkbox" id="tag-{{ $tag->id }}" name="tags[]" value="{{ $tag->id }}"
+                        @checked(in_array($tag->id, $selectedTags))
+                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <label for="tag-{{ $tag->id }}" class="ml-2 text-sm text-gray-700">{{ $tag->name }}</label>
+                </div>
+            @endforeach
+        </div>
+        @error('tags')
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        @enderror
+        @error('tags.*')
             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
     </div>
