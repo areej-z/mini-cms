@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 
@@ -41,6 +42,19 @@ it('creates a post with the selected tags', function () {
     expect($post->tags()->pluck('tags.id')->all())->toEqual($tags->pluck('id')->all());
 });
 
+it('creates a post with a selected category', function () {
+    $category = Category::factory()->create();
+
+    $this->post(route('posts.store'), postData([
+        'category_id' => $category->id,
+    ]))->assertRedirect();
+
+    $this->assertDatabaseHas('posts', [
+        'slug' => 'article-de-test',
+        'category_id' => $category->id,
+    ]);
+});
+
 it('does not create a post without a title', function () {
     $this->post(route('posts.store'), postData(['title' => '']))
         ->assertRedirect();
@@ -68,6 +82,15 @@ it('shows available tags in the create form', function () {
         ->assertSee('name="tags[]"', false)
         ->assertSee('value="'.$tag->id.'"', false)
         ->assertSee('Tutoriel');
+});
+
+it('shows available categories in the create form', function () {
+    $category = Category::factory()->create(['name' => 'Tutoriels']);
+
+    $this->get(route('posts.create'))
+        ->assertOk()
+        ->assertSee('name="category_id"', false)
+        ->assertSee('Tutoriels');
 });
 
 it('keeps selected tags checked after validation fails', function () {
