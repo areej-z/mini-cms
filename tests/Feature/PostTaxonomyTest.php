@@ -139,3 +139,71 @@ it('shows published article counts by category without loading posts', function 
             return true;
         });
 });
+
+it('lists only published posts for a tag found by slug', function () {
+    $tag = Tag::factory()->create(['name' => 'Astuce', 'slug' => 'astuce']);
+
+    foreach (range(1, 5) as $number) {
+        $post = Post::factory()->published()->create([
+            'title' => 'Astuce publiee '.$number,
+            'published_at' => now()->subDays($number),
+        ]);
+        $post->tags()->attach($tag);
+    }
+
+    $draft = Post::factory()->create(['title' => 'Astuce en brouillon']);
+    $draft->tags()->attach($tag);
+
+    Post::factory()->published()->create(['title' => 'Sans ce tag']);
+
+    $this->get(route('posts.tag', ['tag' => 'astuce']))
+        ->assertOk()
+        ->assertSee('Tag : Astuce')
+        ->assertSee('Astuce publiee 1')
+        ->assertSee('Astuce publiee 4')
+        ->assertDontSee('Astuce publiee 5')
+        ->assertDontSee('Astuce en brouillon')
+        ->assertDontSee('Sans ce tag')
+        ->assertSee('href="'.route('posts.tag', ['tag' => 'astuce']).'"', false);
+
+    $this->get(route('posts.tag', ['tag' => 'astuce', 'page' => 2]))
+        ->assertOk()
+        ->assertSee('Astuce publiee 5')
+        ->assertDontSee('Astuce publiee 1');
+});
+
+it('returns not found for an unknown tag slug', function () {
+    $this->get('/posts/tag/inconnu')
+        ->assertNotFound();
+});
+
+it('shows only tags with published posts on the home page in popularity order', function () {
+    $popularTag = Tag::factory()->create(['name' => 'Populaire', 'slug' => 'populaire']);
+    $alphabeticalTag = Tag::factory()->create(['name' => 'Autre', 'slug' => 'autre']);
+    $lessPopularTag = Tag::factory()->create(['name' => 'Unique', 'slug' => 'unique']);
+    $draftOnlyTag = Tag::factory()->create(['name' => 'Invisible', 'slug' => 'invisible']);
+
+    Post::factory(2)->published()->create()
+        ->each(fn (Post $post) => $post->tags()->attach($popularTag));
+    Post::factory(2)->published()->create()
+        ->each(fn (Post $post) => $post->tags()->attach($alphabeticalTag));
+    Post::factory()->published()->create()->tags()->attach($lessPopularTag);
+    Post::factory()->create()->tags()->attach($draftOnlyTag);
+
+    $this->get(route('home'))
+        ->assertOk()
+        ->assertSee('Autre (2)')
+        ->assertSee('Populaire (2)')
+        ->assertSee('Unique (1)')
+        ->assertDontSee('Invisible')
+        ->assertSee(route('posts.tag', ['tag' => 'populaire']), false)
+        ->assertViewHas('tags', function ($tags) {
+            expect($tags->pluck('name')->all())->toBe([
+                'Autre',
+                'Populaire',
+                'Unique',
+            ]);
+
+            return true;
+        });
+});
