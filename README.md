@@ -47,13 +47,33 @@ php artisan key:generate
 touch database/database.sqlite
 php artisan migrate
 composer run dev
+```
+
 ## Captures d'écran
+
+### Session 01
+![Accueil de Mini-CMS](screenshots/s01-accueil.png)
+![Page de bienvenue](screenshots/s01-bienvenue.png)
+![Liste des routes](screenshots/s01-route-list.png)
+
+### Session 02
+![Page À propos](screenshots/s02-a-propos.png)
+
+### Session 03
+![Accueil avec les articles](screenshots/s03-accueil.png)
+![Détail d'un article](screenshots/s03-article.png)
+![Liste des articles](screenshots/s03-articles.png)
+
+### Autre capture
+![Page Heure et Date](screenshots/heure.png)
 
 ### Session 04
 ![Liste des articles](screenshots/s04-articles.png)
+
 ### Session 05
 ![Liste paginée des articles](screenshots/s05-articles.png)
 ![Formulaire avec erreurs de validation](screenshots/s05-formulaire.png)
+
 ### Session 06
 ![Formulaire de modification prérempli](screenshots/s06-modification.png)
 ![Confirmation de suppression](screenshots/s06-suppression.png)
