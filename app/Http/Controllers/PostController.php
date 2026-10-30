@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
@@ -31,6 +32,7 @@ class PostController extends Controller
     public function create(): View
     {
         return view('posts.create', [
+            'categories' => Category::orderBy('name')->get(),
             'tags' => Tag::orderBy('name')->get(),
         ]);
     }
@@ -43,6 +45,7 @@ class PostController extends Controller
             'excerpt' => ['nullable', 'string', 'max:255'],
             'body' => ['required', 'string', 'min:20'],
             'is_published' => ['nullable', 'boolean'],
+            'category_id' => ['nullable', 'integer', 'exists:categories,id'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['integer', 'exists:tags,id'],
         ]);
@@ -79,6 +82,7 @@ class PostController extends Controller
 
         return view('posts.edit', [
             'post' => $post,
+            'categories' => Category::orderBy('name')->get(),
             'tags' => Tag::orderBy('name')->get(),
         ]);
     }
@@ -91,6 +95,7 @@ class PostController extends Controller
             'excerpt' => ['nullable', 'string', 'max:255'],
             'body' => ['required', 'string', 'min:20'],
             'is_published' => ['nullable', 'boolean'],
+            'category_id' => ['nullable', 'integer', 'exists:categories,id'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['integer', 'exists:tags,id'],
         ]);

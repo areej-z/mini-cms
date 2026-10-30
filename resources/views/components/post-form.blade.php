@@ -1,4 +1,4 @@
-@props(['post' => null, 'tags' => []])
+@props(['post' => null, 'categories', 'tags'])
 
 @php
     $selectedTags = session()->hasOldInput()
@@ -41,6 +41,19 @@
         <label for="body" class="block text-sm font-medium text-gray-700">Contenu</label>
         <textarea id="body" name="body" rows="8" class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2">{{ old('body', $post?->body) }}</textarea>
         @error('body')
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <div>
+        <label for="category_id" class="block text-sm font-medium text-gray-700">Catégorie</label>
+        <select id="category_id" name="category_id" class="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2">
+            <option value="">Aucune catégorie</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}" @selected(old('category_id', $post?->category_id) == $category->id)>{{ $category->name }}</option>
+            @endforeach
+        </select>
+        @error('category_id')
             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
     </div>
