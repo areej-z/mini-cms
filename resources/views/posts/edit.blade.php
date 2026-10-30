@@ -9,5 +9,5 @@
         </x-alert>
     @endif
 
-    <x-post-form :post="$post" />
+    <x-post-form :post="$post" :tags="$tags" />
 </x-layout>
