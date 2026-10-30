@@ -11,7 +11,13 @@
         @else
             Brouillon
         @endif
-        - {{ $post->category?->name ?? 'Sans catégorie' }} - par {{ $post->user?->name ?? 'auteur inconnu' }}
+        -
+        @if ($post->category)
+            <a href="{{ route('posts.category', ['category' => $post->category->slug]) }}" class="underline hover:text-indigo-600">{{ $post->category->name }}</a>
+        @else
+            Sans catégorie
+        @endif
+        - par {{ $post->user?->name ?? 'auteur inconnu' }}
     </p>
 
     <p class="mt-4 text-gray-700">{{ $post->excerpt ?: \Illuminate\Support\Str::limit($post->body, 180) }}</p>

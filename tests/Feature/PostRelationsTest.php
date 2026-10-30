@@ -75,3 +75,56 @@ it('shows other published posts of the same category', function () {
         ->assertDontSee('Voisin brouillon')
         ->assertDontSee('Autre categorie');
 });
+
+it('lists only published posts in a category by slug with pagination', function () {
+    $category = Category::factory()->create(['name' => 'Laravel', 'slug' => 'laravel']);
+
+    foreach (range(1, 5) as $number) {
+        Post::factory()->published()->create([
+            'category_id' => $category->id,
+            'title' => 'Article Laravel '.$number,
+            'published_at' => now()->subDays($number),
+        ]);
+    }
+
+    Post::factory()->create([
+        'category_id' => $category->id,
+        'title' => 'Brouillon Laravel',
+    ]);
+
+    $otherCategory = Category::factory()->create();
+    Post::factory()->published()->create([
+        'category_id' => $otherCategory->id,
+        'title' => 'Article autre catégorie',
+    ]);
+
+    $this->get(route('posts.category', ['category' => $category->slug]))
+        ->assertOk()
+        ->assertSee('Catégorie : Laravel')
+        ->assertSee('Article Laravel 1')
+        ->assertSee('Article Laravel 4')
+        ->assertDontSee('Article Laravel 5')
+        ->assertDontSee('Brouillon Laravel')
+        ->assertDontSee('Article autre catégorie')
+        ->assertSee('aria-current="page"', false);
+
+    $this->get(route('posts.category', ['category' => $category->slug, 'page' => 2]))
+        ->assertOk()
+        ->assertSee('Article Laravel 5')
+        ->assertDontSee('Article Laravel 1');
+});
+
+it('returns not found for an unknown category slug', function () {
+    $this->get('/posts/categorie/inconnue')
+        ->assertNotFound();
+});
+
+it('links a post card category name to its slug page', function () {
+    $category = Category::factory()->create(['name' => 'Laravel', 'slug' => 'laravel']);
+    Post::factory()->published()->create(['category_id' => $category->id]);
+
+    $this->get(route('posts.index'))
+        ->assertOk()
+        ->assertSee('href="'.route('posts.category', ['category' => 'laravel']).'"', false)
+        ->assertSee('>Laravel</a>', false);
+});
