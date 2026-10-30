@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 
 class PageController extends Controller
@@ -14,6 +16,11 @@ class PageController extends Controller
                 ->with('user', 'category', 'tags')
                 ->latest('published_at')
                 ->take(3)
+                ->get(),
+            'categories' => Category::withCount([
+                'posts' => fn (Builder $query) => $query->published(),
+            ])
+                ->orderBy('name')
                 ->get(),
         ]);
     }
