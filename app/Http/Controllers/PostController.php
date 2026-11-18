@@ -102,7 +102,7 @@ class PostController extends Controller
         ]);
     }
 
-   public function update(UpdatePostRequest $request, Post $post): RedirectResponse
+    public function update(UpdatePostRequest $request, Post $post): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -114,6 +114,7 @@ class PostController extends Controller
 
         return redirect()->route('posts.show', $post);
     }
+
     public function destroy(Post $post): RedirectResponse
     {
         $post->delete();
