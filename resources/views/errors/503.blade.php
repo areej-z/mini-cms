@@ -1,14 +1,14 @@
-<x-layout title="Service indisponible (503)">
-    <div class="max-w-2xl mx-auto py-12 px-4 text-center space-y-6">
-        <p class="text-sm font-semibold uppercase tracking-wider text-amber-600">Erreur 503</p>
-        <h1 class="text-3xl font-bold text-gray-900">Site temporairement en lecture seule.</h1>
-        <p class="text-gray-600">
-            {{ $exception->getMessage() ?: 'Le site est en lecture seule. Veuillez réessayer plus tard.' }}
-        </p>
-        <div>
-            <a href="{{ route('posts.index') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
-                Retour aux articles
-            </a>
-        </div>
-    </div>
+<x-layout>
+    <x-slot:title>Service indisponible - Mini-CMS</x-slot:title>
+
+    <h1 class="text-3xl font-bold text-gray-900">Service momentanément indisponible</h1>
+    <p class="mt-2 mb-8 text-gray-600">Le site ne peut pas traiter cette demande pour le moment.</p>
+
+    <x-alert type="warning" title="Erreur 503" class="max-w-2xl">
+        {{ $exception->getMessage() ?: 'Le site est en maintenance. Réessayez dans quelques minutes.' }}
+    </x-alert>
+
+    <p class="mt-6">
+        <a href="{{ route('home') }}" class="font-medium text-indigo-600 hover:underline">Retour à l'accueil</a>
+    </p>
 </x-layout>
