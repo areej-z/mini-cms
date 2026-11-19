@@ -68,7 +68,7 @@ class PostController extends Controller
         $validated['is_published'] = $request->boolean('is_published');
         $validated['published_at'] = $validated['is_published'] ? now() : null;
 
-        $post = Post::create(Arr::except($validated, ['tags']));
+        $post = $request->user()->posts()->create(Arr::except($validated, ['tags']));
         $post->tags()->sync($validated['tags'] ?? []);
 
         return redirect()->route('posts.show', $post)->with('success', 'Article créé.');
