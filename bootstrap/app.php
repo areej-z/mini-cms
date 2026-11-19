@@ -27,7 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
             if ($request->routeIs('posts.show')) {
                 $recentPosts = Post::published()
-                    ->with(['category', 'tags'])
+                    ->with(['category', 'user', 'tags'])
                     ->latest('published_at')
                     ->take(3)
                     ->get();
