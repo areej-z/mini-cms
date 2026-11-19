@@ -3,6 +3,8 @@
 return [
     'array' => 'Le champ :attribute doit être une liste.',
     'boolean' => 'Le champ :attribute doit être vrai ou faux.',
+    'confirmed' => 'La confirmation du champ :attribute ne correspond pas.',
+    'email' => 'Le champ :attribute doit être une adresse e-mail valide.',
     'exists' => 'La valeur sélectionnée pour le champ :attribute est invalide.',
     'integer' => 'Le champ :attribute doit être un nombre entier.',
     'max' => [
@@ -25,9 +27,11 @@ return [
     'attributes' => [
         'body' => 'contenu',
         'category_id' => 'catégorie',
+        'email' => 'adresse e-mail',
         'excerpt' => 'extrait',
         'is_published' => 'publication',
         'name' => 'nom',
+        'password' => 'mot de passe',
         'slug' => 'slug',
         'tags' => 'tags',
         'tags.*' => 'tag',
