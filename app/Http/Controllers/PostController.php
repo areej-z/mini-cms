@@ -9,6 +9,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class PostController extends Controller
@@ -93,6 +94,8 @@ class PostController extends Controller
 
     public function edit(Post $post): View
     {
+        Gate::authorize('update', $post);
+
         $post->load('tags');
 
         return view('posts.edit', [
@@ -117,6 +120,8 @@ class PostController extends Controller
 
     public function destroy(Post $post): RedirectResponse
     {
+        Gate::authorize('delete', $post);
+
         $post->delete();
 
         return redirect()->route('posts.index')->with('success', 'Article supprimé.');
@@ -124,6 +129,8 @@ class PostController extends Controller
 
     public function togglePublication(Post $post): RedirectResponse
     {
+        Gate::authorize('update', $post);
+
         $isPublished = ! $post->is_published;
 
         $post->update([
