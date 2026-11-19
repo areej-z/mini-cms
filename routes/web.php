@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
@@ -7,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/a-propos', [PageController::class, 'about'])->name('about');
 Route::get('/heure', [PageController::class, 'time'])->name('time');
+
 Route::get('/posts/archive/{year}', [PostController::class, 'archive'])
     ->whereNumber('year')
     ->name('posts.archive');
@@ -16,4 +18,8 @@ Route::get('/posts/tag/{tag:slug}', [PostController::class, 'byTag'])->name('pos
 Route::middleware('writable')->group(function () {
     Route::resource('posts', PostController::class);
     Route::patch('/posts/{post}/publication', [PostController::class, 'togglePublication'])->name('posts.publication');
+
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('categories', CategoryController::class)->except('show');
+    });
 });
