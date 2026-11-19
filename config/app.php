@@ -1,45 +1,36 @@
 <?php
 
-use App\Http\Middleware\EnsureSiteIsWritable;
-use App\Models\Post;
-use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Configuration\Exceptions;
-use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+return [
 
-return Application::configure(basePath: dirname(__DIR__))
-    ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        commands: __DIR__.'/../routes/console.php',
-        health: '/up',
-    )
-    ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->alias([
-            'writable' => EnsureSiteIsWritable::class,
-        ]);
-    })
-    ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->shouldRenderJsonWhen(
-            fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
-        );
+    'name' => env('APP_NAME', 'Laravel'),
 
-        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
-            if ($request->routeIs('posts.show')) {
-                $recentPosts = Post::published()
-                    ->with(['category', 'user', 'tags'])
-                    ->latest('published_at')
-                    ->take(3)
-                    ->get();
+    'env' => env('APP_ENV', 'production'),
 
-                return response()->view('errors.404', [
-                    'exception' => $e,
-                    'heading' => 'Article introuvable',
-                    'message' => 'L’article demandé n’existe pas ou a été supprimé.',
-                    'recentPosts' => $recentPosts,
-                ], 404);
-            }
+    'debug' => (bool) env('APP_DEBUG', false),
 
-            return null;
-        });
-    })->create();
+    'url' => env('APP_URL', 'http://localhost'),
+
+    'timezone' => 'UTC',
+
+    'locale' => env('APP_LOCALE', 'en'),
+
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
+
+    'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
+
+    'cipher' => 'AES-256-CBC',
+
+    'key' => env('APP_KEY'),
+
+    'previous_keys' => [
+        ...array_filter(
+            explode(',', (string) env('APP_PREVIOUS_KEYS', ''))
+        ),
+    ],
+
+    'maintenance' => [
+        'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
+        'store' => env('APP_MAINTENANCE_STORE', 'database'),
+    ],
+
+];
