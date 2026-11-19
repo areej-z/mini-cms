@@ -15,7 +15,7 @@ class EnsureSiteIsWritable
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (config('app.read_only', false)) {
+        if (config('site.read_only') && ! $request->isMethodSafe()) {
             abort(503, 'Le site est en lecture seule.');
         }
 
