@@ -6,17 +6,12 @@ Auteur : Arij Znagui, groupe MDW32.
 
 
 Mini-CMS évoluera au fil du semestre vers une petite plateforme de publication : pages publiques, back-office authentifié, API JSON et tests Pest. Chaque session se termine par un tag Git (`lab-01`, `lab-01b`, puis un tag par session).
+## État actuel (tag lab-05b)
 
-## État actuel (tag lab-04b)
-
-- Formulaires d'article : catégorie (liste déroulante) et tags (cases à cocher, synchronisés avec `sync()`).
-- Pages publiques par catégorie et par tag, liées par slug (`{category:slug}`, `{tag:slug}`).
-- Accueil : catégories et tags populaires comptés avec `withCount`, articles publiés seulement.
-- Tests Pest : `PostPagesTest`, `PostWriteTest`, `PostRelationsTest` et `PostTaxonomyTest`.
-
-## Données de démonstration
-
-Après un clone, reconstruire la base avec `php artisan migrate:fresh --seed`. Attention : cette commande vide la base avant de la remplir.
+- Back-office des catégories et des tags sous `/admin` (`CategoryController`, `TagController`), protégé par le middleware `writable`, avec Form Requests et messages flash.
+- Messages de validation en français (`lang/fr/validation.php`, `APP_LOCALE=fr`), avec des noms de champs lisibles et un message propre au slug des catégories.
+- Pages 404 et 503 affichées dans le layout du site (`resources/views/errors`).
+- Tests Pest : `PostPagesTest`, `PostWriteTest`, `PostRelationsTest`, `PostTaxonomyTest`, `PostFeedbackTest`, `CategoryAdminTest` et `ErrorPagesTest`.
 
 ## Routes disponibles
 
@@ -26,7 +21,7 @@ Après un clone, reconstruire la base avec `php artisan migrate:fresh --seed`. A
 | GET | `/a-propos` | `about` | `PageController@about` |
 | GET | `/heure` | `time` | `PageController@time` |
 | GET | `/posts` | `posts.index` | `PostController@index` |
-| GET | `/archives/{year}` | `posts.archive` | `PostController@archive` |
+| GET | `/posts/archive/{year}` | `posts.archive` | `PostController@archive` |
 | GET | `/posts/categorie/{category:slug}` | `posts.category` | `PostController@byCategory` |
 | GET | `/posts/tag/{tag:slug}` | `posts.tag` | `PostController@byTag` |
 | GET | `/posts/create` | `posts.create` | `PostController@create` |
@@ -36,6 +31,55 @@ Après un clone, reconstruire la base avec `php artisan migrate:fresh --seed`. A
 | PUT | `/posts/{post}` | `posts.update` | `PostController@update` |
 | DELETE | `/posts/{post}` | `posts.destroy` | `PostController@destroy` |
 | PATCH | `/posts/{post}/publication` | `posts.publication` | `PostController@togglePublication` |
+| GET | `/admin/categories` | `admin.categories.index` | `CategoryController@index` |
+| GET | `/admin/categories/create` | `admin.categories.create` | `CategoryController@create` |
+| POST | `/admin/categories` | `admin.categories.store` | `CategoryController@store` |
+| GET | `/admin/categories/{category}/edit` | `admin.categories.edit` | `CategoryController@edit` |
+| PUT | `/admin/categories/{category}` | `admin.categories.update` | `CategoryController@update` |
+| DELETE | `/admin/categories/{category}` | `admin.categories.destroy` | `CategoryController@destroy` |
+| GET | `/admin/tags` | `admin.tags.index` | `TagController@index` |
+| GET | `/admin/tags/create` | `admin.tags.create` | `TagController@create` |
+| POST | `/admin/tags` | `admin.tags.store` | `TagController@store` |
+| GET | `/admin/tags/{tag}/edit` | `admin.tags.edit` | `TagController@edit` |
+| PUT | `/admin/tags/{tag}` | `admin.tags.update` | `TagController@update` |
+| DELETE | `/admin/tags/{tag}` | `admin.tags.destroy` | `TagController@destroy` |
+## État actuel (tag lab-05b)
+
+- Back-office des catégories et des tags sous `/admin` (`CategoryController`, `TagController`), protégé par le middleware `writable`, avec Form Requests et messages flash.
+- Messages de validation en français (`lang/fr/validation.php`, `APP_LOCALE=fr`), avec des noms de champs lisibles et un message propre au slug des catégories.
+- Pages 404 et 503 affichées dans le layout du site (`resources/views/errors`).
+- Tests Pest : `PostPagesTest`, `PostWriteTest`, `PostRelationsTest`, `PostTaxonomyTest`, `PostFeedbackTest`, `CategoryAdminTest` et `ErrorPagesTest`.
+
+## Routes disponibles
+
+| Méthode | URI | Nom | Action |
+|---|---|---|---|
+| GET | `/` | `home` | `PageController@home` |
+| GET | `/a-propos` | `about` | `PageController@about` |
+| GET | `/heure` | `time` | `PageController@time` |
+| GET | `/posts` | `posts.index` | `PostController@index` |
+| GET | `/posts/archive/{year}` | `posts.archive` | `PostController@archive` |
+| GET | `/posts/categorie/{category:slug}` | `posts.category` | `PostController@byCategory` |
+| GET | `/posts/tag/{tag:slug}` | `posts.tag` | `PostController@byTag` |
+| GET | `/posts/create` | `posts.create` | `PostController@create` |
+| POST | `/posts` | `posts.store` | `PostController@store` |
+| GET | `/posts/{post}` | `posts.show` | `PostController@show` |
+| GET | `/posts/{post}/edit` | `posts.edit` | `PostController@edit` |
+| PUT | `/posts/{post}` | `posts.update` | `PostController@update` |
+| DELETE | `/posts/{post}` | `posts.destroy` | `PostController@destroy` |
+| PATCH | `/posts/{post}/publication` | `posts.publication` | `PostController@togglePublication` |
+| GET | `/admin/categories` | `admin.categories.index` | `CategoryController@index` |
+| GET | `/admin/categories/create` | `admin.categories.create` | `CategoryController@create` |
+| POST | `/admin/categories` | `admin.categories.store` | `CategoryController@store` |
+| GET | `/admin/categories/{category}/edit` | `admin.categories.edit` | `CategoryController@edit` |
+| PUT | `/admin/categories/{category}` | `admin.categories.update` | `CategoryController@update` |
+| DELETE | `/admin/categories/{category}` | `admin.categories.destroy` | `CategoryController@destroy` |
+| GET | `/admin/tags` | `admin.tags.index` | `TagController@index` |
+| GET | `/admin/tags/create` | `admin.tags.create` | `TagController@create` |
+| POST | `/admin/tags` | `admin.tags.store` | `TagController@store` |
+| GET | `/admin/tags/{tag}/edit` | `admin.tags.edit` | `TagController@edit` |
+| PUT | `/admin/tags/{tag}` | `admin.tags.update` | `TagController@update` |
+| DELETE | `/admin/tags/{tag}` | `admin.tags.destroy` | `TagController@destroy` |
 
 ## Prérequis
 - PHP et Composer (PHP 8.3 ou plus depuis https://www.php.net/downloads, avec les extensions curl, fileinfo, mbstring, openssl, pdo_sqlite, sqlite3 et zip activées dans php.ini, et Composer depuis https://getcomposer.org).
@@ -110,3 +154,11 @@ composer run dev
 ![Page d'un article avec le message flash « Article créé. »](screenshots/s09-message-flash.png)
 
 ![Page Article introuvable pour un identifiant inexistant](screenshots/s09-article-introuvable.png)
+
+### Session 10
+
+Back-office des catégories et des tags, messages de validation en français, pages 404 et 503 dans le layout du site.
+
+![Formulaire de catégorie envoyé vide, avec les messages de validation en français](screenshots/s10-validation.png)
+
+![Page 404 du site pour une adresse inconnue](screenshots/s10-404.png)
