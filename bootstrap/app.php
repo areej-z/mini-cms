@@ -24,9 +24,11 @@ return Application::configure(basePath: dirname(__DIR__))
         );
 
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
-            if ($request->is('posts/*') || $request->routeIs('posts.*')) {
+            if ($request->routeIs('posts.show')) {
                 return response()->view('errors.404', [
                     'exception' => $e,
+                    'heading' => 'Article introuvable',
+                    'message' => 'L’article demandé n’existe pas ou a été supprimé.',
                 ], 404);
             }
 
