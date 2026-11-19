@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnsureSiteIsWritable;
+use App\Models\Post;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -25,10 +26,17 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
             if ($request->routeIs('posts.show')) {
+                $recentPosts = Post::published()
+                    ->with(['category', 'tags'])
+                    ->latest('published_at')
+                    ->take(3)
+                    ->get();
+
                 return response()->view('errors.404', [
                     'exception' => $e,
                     'heading' => 'Article introuvable',
                     'message' => 'L’article demandé n’existe pas ou a été supprimé.',
+                    'recentPosts' => $recentPosts,
                 ], 404);
             }
 
