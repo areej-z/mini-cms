@@ -131,3 +131,21 @@ Back-office des catégories et des tags, messages de validation en français, pa
 ![Barre de navigation d'un utilisateur connecté, avec le message « Vous êtes connecté. »](screenshots/s11-connexion.png)
 
 ![Page 403 quand un auteur ouvre la modification de l'article d'un autre auteur](screenshots/s11-interdit.png)
+
+## Comparaison avec le starter kit Livewire
+
+| Critère | Mini-CMS (authentification manuelle) | Starter kit Livewire |
+|---|---|---|
+| Routes d'authentification | Déclarées dans `routes/web.php` (`/inscription`, `/connexion`, `/deconnexion`) | Enregistrées automatiquement par Laravel Fortify (absentes de `routes/web.php`) |
+| Inscription | `Auth\RegisterController` et `RegisterRequest` avec `Hash::make()` | `app/Actions/Fortify/CreateNewUser.php` et vue Livewire |
+| Connexion | `Auth\LoginController::store` (`Auth::attempt`, `session()->regenerate()`) | Contrôleur Fortify et vue Livewire |
+| Déconnexion | `Auth\LoginController::destroy` (`logout`, `invalidate`, `regenerateToken`) | Route Fortify et `app/Livewire/Actions/Logout.php` |
+| Limitation des tentatives | Aucune | 5 tentatives par minute par e-mail et IP (`FortifyServiceProvider`) |
+| Mot de passe oublié | Absent | Intégré (`Features::resetPasswords()` dans `config/fortify.php`) |
+| Vérification de l'e-mail | Absente | Intégrée (`Features::emailVerification()`, `MustVerifyEmail`, middleware `verified`) |
+| Double authentification | Absente | Intégrée (`Features::twoFactorAuthentication()` et passkeys) |
+| Rôles et autorisations | Colonne `role`, middleware `EnsureUserIsAdmin`, Gates dans `AppServiceProvider`, `PostPolicy` | Aucun : à implémenter soi-même |
+| Tests | `AuthTest`, `AuthorizationTest`, `AdminAccessTest`, `PostVisibilityTest` (Pest) | Suite de tests fournie pour Auth, Settings et Dashboard |
+
+Ce que je garderais du kit dans un vrai projet : Je garderais la limitation des tentatives de connexion, la réinitialisation du mot de passe et la vérification d'e-mail fournies par Fortify, qui sont fastidieuses et sensibles à écrire à la main. En revanche, il reste indispensable d'écrire soi-même les rôles, les middlewares, les Gates et les Policies propres au métier de l'application.
+
