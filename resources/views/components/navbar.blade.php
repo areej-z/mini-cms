@@ -12,6 +12,9 @@
         @can('manage-tags')
             <x-nav-link to="admin.tags.index" match="admin.tags.*">Tags</x-nav-link>
         @endcan
+        @can('manage-users')
+            <x-nav-link to="admin.users.index" match="admin.users.*">Utilisateurs</x-nav-link>
+        @endcan
 
         <div class="ml-auto flex flex-wrap items-center gap-2">
             @auth

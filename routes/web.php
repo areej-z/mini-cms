@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
@@ -39,6 +40,8 @@ Route::middleware('writable')->group(function () {
         Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
             Route::resource('categories', CategoryController::class)->except('show');
             Route::resource('tags', TagController::class)->except('show');
+            Route::get('/utilisateurs', [UserController::class, 'index'])->name('users.index');
+            Route::patch('/utilisateurs/{user}/role', [UserController::class, 'updateRole'])->name('users.role');
         });
     });
 
