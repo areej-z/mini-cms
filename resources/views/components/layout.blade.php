@@ -7,24 +7,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
-    <header class="bg-white border-b border-gray-200">
-        <nav class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center gap-2" aria-label="Navigation principale">
-            <a href="{{ url('/') }}" class="font-bold text-lg text-indigo-600 mr-4">Mini-CMS</a>
-            <a
-                href="{{ url('/') }}"
-                class="px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100"
-            >
-                Accueil
-            </a>
-            <a
-                href="{{ route('posts.index') }}"
-                @if (request()->routeIs('posts.*')) aria-current="page" @endif
-                class="px-3 py-2 rounded-md text-sm font-medium transition-colors {{ request()->routeIs('posts.*') ? 'bg-indigo-600 text-white' : 'text-gray-700 hover:bg-gray-100' }}"
-            >
-                Articles
-            </a>
-        </nav>
-    </header>
+    <x-navbar />
 
     <main class="flex-1 w-full max-w-5xl mx-auto px-4 py-8 space-y-6">
         @if (config('site.read_only'))

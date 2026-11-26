@@ -12,6 +12,7 @@
 
         <div class="ml-auto flex flex-wrap items-center gap-2">
             @auth
+                <x-nav-link to="my-posts">Mes articles</x-nav-link>
                 <span class="text-sm text-gray-600">{{ auth()->user()->name }}</span>
 
                 <form method="POST" action="{{ route('logout') }}">
