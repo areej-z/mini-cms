@@ -14,7 +14,7 @@ class PostController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $posts = Post::published()->latest('id')->paginate(5);
+        $posts = Post::published()->with('user', 'category')->latest('id')->paginate(5);
 
         return PostResource::collection($posts);
     }
