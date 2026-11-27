@@ -33,6 +33,7 @@ return [
         'name' => 'nom',
         'password' => 'mot de passe',
         'per_page' => 'nombre par page',
+        'per_page' => 'nombre par page',
         'slug' => 'slug',
         'tags' => 'tags',
         'tags.*' => 'tag',
