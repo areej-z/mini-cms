@@ -18,5 +18,6 @@ Route::name('api.')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+        Route::apiResource('posts', PostController::class)->except(['index', 'show']);
     });
 });
