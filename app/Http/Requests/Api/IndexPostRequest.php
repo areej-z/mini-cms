@@ -24,6 +24,8 @@ class IndexPostRequest extends FormRequest
     {
         return [
             'per_page' => ['nullable', 'integer', 'min:1', 'max:50'],
+            'category' => ['nullable', 'string', 'exists:categories,slug'],
+            'tag' => ['nullable', 'string', 'exists:tags,slug'],
         ];
     }
 }

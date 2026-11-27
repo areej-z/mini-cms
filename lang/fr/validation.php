@@ -26,13 +26,13 @@ return [
 
     'attributes' => [
         'body' => 'contenu',
+        'category' => 'catégorie',
         'category_id' => 'catégorie',
         'email' => 'adresse e-mail',
         'excerpt' => 'extrait',
         'is_published' => 'publication',
         'name' => 'nom',
         'password' => 'mot de passe',
-        'per_page' => 'nombre par page',
         'per_page' => 'nombre par page',
         'slug' => 'slug',
         'tags' => 'tags',
