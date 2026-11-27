@@ -9,5 +9,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::name('api.')->group(function () {
-    Route::apiResource('posts', PostController::class)->only(['index']);
+    Route::apiResource('posts', PostController::class)->only(['index', 'show']);
 });
